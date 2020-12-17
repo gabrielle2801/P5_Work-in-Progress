@@ -17,12 +17,6 @@ Product_category = Table('product_category', Base.metadata,
                          )
 
 
-class Product_Category(Base):
-    product_id = Column(Integer, ForeignKey('products.id'), primary_key=True)
-    category_id = Column(Integer, ForeignKey(
-        'categories.id'), primary_key=True)
-
-
 class Product(Base):
     __tablename__ = 'product'
 
@@ -38,7 +32,7 @@ class Product(Base):
 
     def __repr__(self):
         return "<Product(name='%s', nutriscore='%s', nova='%s')>"\
-            % (self.name, self.nutriscore, self.nova)
+            % (self.name, self.nutriscore, self.nova, self.brands)
 
 
 class Category(Base):
@@ -70,16 +64,16 @@ class Brand(Base):
 
 print("--- Construct all tables for the database (here just one table) ---")
 global Session
-engine = create_engine('postgresql://localhost/test')
+engine = create_engine('postgresql://localhost/ingredients_db')
 Session = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)
 
-# Function does not work to remove duplicates ...
 
-
-def get_brand(name):
+def get_brand(n):
     session = Session()
-    return session.query(Brand).filter(Brand.name == 'name')
+    # print(n)
+    print(session.query(Brand).filter(Brand.name == 'n').all())
+    return session.query(Brand).filter(Brand.name == 'n').all()
 
 
 def add_data():

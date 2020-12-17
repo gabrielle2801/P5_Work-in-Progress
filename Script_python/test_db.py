@@ -2,25 +2,19 @@ import requests
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
+from sqlalchemy import Column, Integer, String, MetaData, ForeignKey
 from sqlalchemy.orm import relationship
 
 
 Base = declarative_base()
 metadata = MetaData()
 
-Product_category = Table('product_category', Base.metadata,
-                         Column('id_product', Integer,
-                                ForeignKey('product.id')),
-                         Column('id_category', Integer,
-                                ForeignKey('category.id'))
-                         )
-
 
 class Product_Category(Base):
-    product_id = Column(Integer, ForeignKey('products.id'), primary_key=True)
+    __tablename__ = 'product_category'
+    product_id = Column(Integer, ForeignKey('product.id'), primary_key=True)
     category_id = Column(Integer, ForeignKey(
-        'categories.id'), primary_key=True)
+        'category.id'), primary_key=True)
 
 
 class Product(Base):
@@ -32,7 +26,7 @@ class Product(Base):
     nova = Column(String)
     categories = relationship(
         "Category",
-        secondary=Product_category, back_populates="products")
+        secondary="Product_Category", backref="products", lazy=True)
     brand_id = Column(Integer, ForeignKey('brand.id'))
     brand = relationship("Brand", backref="brands", lazy=True)
 
@@ -46,11 +40,9 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
-
     products = relationship(
         "Product",
-        secondary=Product_category,
-        back_populates="categories")
+        secondary="Product_Category", backref="categories", lazy=True)
 
     def __repr__(self):
         return "<Category(name='%s')>" % (self.name)
@@ -123,6 +115,12 @@ def add_data():
                     "nutrition_grades"),
                     nova=item.get("nova_groups_tags"),
                     brand=b))
+            p = session.query(Product.filter(
+                Product.name == item.get("products").first()))
+            c = session.query(Category.filter(
+                Category.name == item.get("category").first()))
+            session.add(Product_Category(product_id=p,
+                                         category_id=c))
 
     session.commit()
     session.close()
