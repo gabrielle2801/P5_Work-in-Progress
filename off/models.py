@@ -7,15 +7,16 @@ from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 metadata = MetaData()
-Product_category = Table('product_category', Base.metadata,
-                         Column('id_product', Integer,
+
+product_category = Table('product_category', Base.metadata,
+                         Column('product_id', Integer,
                                 ForeignKey('product.id')),
-                         Column('id_category', Integer,
+                         Column('category_id', Integer,
                                 ForeignKey('category.id'))
                          )
 product_store = Table('product_store', Base.metadata,
-                      Column('id_product', Integer, ForeignKey('product.id')),
-                      Column('id_store', Integer,
+                      Column('product_id', Integer, ForeignKey('product.id')),
+                      Column('store_id', Integer,
                              ForeignKey('store.id'))
                       )
 
@@ -35,7 +36,7 @@ class Product(Base):
 
     categories = relationship(
         "Category",
-        secondary=Product_category, backref="product")
+        secondary=product_category, backref="products")
     stores = relationship(
         "Store",
         secondary=product_store,
@@ -79,8 +80,18 @@ class Store(Base):
         return "<Store(name='%s'))>" % (self.name)
 
 
-print("--- Construct all tables for the database (here just one table) ---")
+class Subtitute(Base):
+    __tablename__ = 'subtitute'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+
+    def __repr__(self):
+        return "<Subtitute(name='%s'))>" % (self.name)
+
+
+print("--- Construct all tables for the database  ---")
 global Session
-engine = create_engine('postgresql://localhost/ingredients_db')
+engine = create_engine('postgresql://localhost/test')
 Session = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)

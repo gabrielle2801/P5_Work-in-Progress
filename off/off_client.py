@@ -1,5 +1,6 @@
 # import json
 from requester import request_off, request_search
+from models import Store
 
 
 class OpenFoodFactsApi:
@@ -34,5 +35,5 @@ class OpenFoodFactsApi:
         result_3 = response_3.json()
         data_store = result_3.get('tags')
         store_name = [data.get('name', 'None') for data in data_store]
-        print(len(store_name))
-        return store_name
+        nb_store = store_name[0:30]
+        return nb_store
