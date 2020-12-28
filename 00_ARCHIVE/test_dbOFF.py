@@ -64,7 +64,7 @@ class Brand(Base):
 
 print("--- Construct all tables for the database (here just one table) ---")
 global Session
-engine = create_engine('postgresql://localhost/ingredients_db')
+engine = create_engine('postgresql://localhost/test')
 Session = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)
 
@@ -72,7 +72,7 @@ Base.metadata.create_all(engine)
 def get_brand(n):
     session = Session()
     # print(n)
-    print(session.query(Brand).filter(Brand.name == 'n').all())
+#    print(session.query(Brand).filter(Brand.name == 'n').all())
     return session.query(Brand).filter(Brand.name == 'n').all()
 
 
@@ -86,7 +86,7 @@ def add_data():
     popular_cat = category_name[0:10]
 
     for category in popular_cat:
-        print(category)
+        #print(category)
         session.add(Category(name=category))
         query = {
             "action": "process",
@@ -105,7 +105,8 @@ def add_data():
                 # b = get_brand(item.get("brands"))
                 b = session.query(Brand).filter(
                     Brand.name == item.get("brands")).first()
-                print(b)
+                # print(item.get("brands"))
+                # print(b)
                 if not b:
                     brand = Brand(name=item.get("brands"),
                                   label=item.get("label"))

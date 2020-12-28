@@ -1,9 +1,9 @@
-from import_db import import_data
+from interface import Category_menu
 
 
 def main():
 
-    import_data()
+    Category_menu()
 
 
 if __name__ == "__main__":

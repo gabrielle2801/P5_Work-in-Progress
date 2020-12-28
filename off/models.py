@@ -14,6 +14,12 @@ product_category = Table('product_category', Base.metadata,
                          Column('category_id', Integer,
                                 ForeignKey('category.id'))
                          )
+subtitute_category = Table('subtitute_category', Base.metadata,
+                           Column('subtitute_id', Integer,
+                                  ForeignKey('subtitute.id')),
+                           Column('category_id', Integer,
+                                  ForeignKey('category.id'))
+                           )
 product_store = Table('product_store', Base.metadata,
                       Column('product_id', Integer, ForeignKey('product.id')),
                       Column('store_id', Integer,
@@ -48,6 +54,25 @@ class Product(Base):
             % (self.name, self.nutriscore, self.nova, self.url, self.barcode)
 
 
+class Subtitute(Base):
+    __tablename__ = 'subtitute'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    description = Column(String)
+    store = Column(String)
+    url = Column(String)
+
+    categories = relationship(
+        "Category",
+        secondary=subtitute_category, backref="subtitutes")
+
+    def __repr__(self):
+        return "<Product(name='%s', description='%s', store='%s',\
+                                                     url='%s')>"\
+                % (self.name, self.description, self.store, self.url)
+
+
 class Brand(Base):
     __tablename__ = 'brand'
 
@@ -78,16 +103,6 @@ class Store(Base):
 
     def __repr__(self):
         return "<Store(name='%s'))>" % (self.name)
-
-
-class Subtitute(Base):
-    __tablename__ = 'subtitute'
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-
-    def __repr__(self):
-        return "<Subtitute(name='%s'))>" % (self.name)
 
 
 print("--- Construct all tables for the database  ---")
