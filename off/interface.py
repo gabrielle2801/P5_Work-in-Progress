@@ -1,5 +1,6 @@
 # from off_client import OpenFoodFactsApi
-from import_db import Bdd
+from import_db import Database
+from manager import Productbycategory
 
 
 class Category_menu():
@@ -8,10 +9,8 @@ class Category_menu():
         self.start()
 
     def start(self):
-        bdd = Bdd()
-        # client = OpenFoodFactsApi()
-        # categories = client.get_categories()
-        # print()
+        bdd = Database()
+        menu = Productbycategory()
         entree = int(input(
             "1 - Quel aliment souhaitez-vous remplacer ? "'\n'"2 - Retrouver mes aliments substitués"'\n'))
 
@@ -21,15 +20,19 @@ class Category_menu():
             for category in bdd.list_category:
                 print(i, " - ", category)
                 i = i + 1
-            number_cat = int(input("Choississez la catégorie"'\n'))
-            cat = bdd.list_category[number_cat - 1]
-            print(cat)
-            for product in bdd.get_product(cat):
+            number_category = int(input("Choississez la catégorie"'\n'))
+            categories = bdd.list_category[number_category - 1]
+            print(categories)
+            for product in menu.get_product(categories):
                 print(j, " - ", product.name)
                 j = j + 1
             product_choice = int(
                 input("Quel produit souhaitez-vous remplacer ?"'\n'))
-            print(bdd.get_product(cat)[product_choice - 1])
+            print(menu.get_product(categories)[product_choice - 1])
+            for subtitute in menu.get_subtitute(product, categories):
+                print(subtitute.name, subtitute.nutriscore)
+                for store in menu.get_store(subtitute):
+                    print(store.name)
 
         elif entree == 2:
             print("c'est fini ????")

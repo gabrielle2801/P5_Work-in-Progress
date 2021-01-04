@@ -23,26 +23,9 @@ class OpenFoodFactsApi:
             "tag_contains_0": "contains",
             "tag_0": popular_category,
             "sort_by": "unique_scans_n",
-            "page_size": 10,
+            "page_size": 20,
             "json": 1}
 
         response_product = request_search("cgi/search.pl?", query)
         result_product = response_product.json()
         return result_product["products"]
-
-    def get_producthealthy(self, popular_category):
-        query = {
-            "action": "process",
-            "tagtype_0": "categories",
-            "tag_contains_0": "contains",
-            "tag_0": popular_category,
-            "tagtype_1": "nutrition_grades",
-            "tag_contains_1": "contains",
-            "tag_1": "A",
-            "sort_by": "unique_scans_n",
-            "page_size": 10,
-            "json": 1}
-
-        response_healthy = request_search("cgi/search.pl?", query)
-        result_healthy = response_healthy.json()
-        return result_healthy["products"]

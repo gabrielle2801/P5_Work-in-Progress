@@ -14,17 +14,18 @@ product_category = Table('product_category', Base.metadata,
                          Column('category_id', Integer,
                                 ForeignKey('category.id'))
                          )
-subtitute_category = Table('subtitute_category', Base.metadata,
-                           Column('subtitute_id', Integer,
-                                  ForeignKey('subtitute.id')),
-                           Column('category_id', Integer,
-                                  ForeignKey('category.id'))
-                           )
+
 product_store = Table('product_store', Base.metadata,
                       Column('product_id', Integer, ForeignKey('product.id')),
                       Column('store_id', Integer,
                              ForeignKey('store.id'))
                       )
+product_subtitute = Table('product_subtituteu', Base.metadata,
+                          Column('product_id', Integer,
+                                 ForeignKey('product.id')),
+                          Column('subtitute_id', Integer,
+                                 ForeignKey('subtitute.id'))
+                          )
 
 
 class Product(Base):
@@ -33,9 +34,10 @@ class Product(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     nutriscore = Column(String)
-    nova = Column(String)
+    nova = Column(Integer)
     url = Column(String)
     barcode = Column(String)
+    description = Column(String)
     brand_id = Column(Integer, ForeignKey(
         'brand.id', onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
     brand = relationship("Brand", backref="brands", lazy=True)
@@ -47,11 +49,15 @@ class Product(Base):
         "Store",
         secondary=product_store,
         backref="products")
+    subtitutes = relationship(
+        "Subtitute",
+        secondary=product_subtitute,
+        backref="products")
 
     def __repr__(self):
         return "<Product(name='%s', nutriscore='%s', nova='%s',\
-                                                     url='%s', barcode='%s')>"\
-            % (self.name, self.nutriscore, self.nova, self.url, self.barcode)
+                                                     url='%s', description='%s',barcode='%s')>"\
+            % (self.name, self.nutriscore, self.nova, self.url, self.description, self.barcode)
 
 
 class Subtitute(Base):
@@ -59,18 +65,15 @@ class Subtitute(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
+    nutriscore = Column(String)
     description = Column(String)
     store = Column(String)
     url = Column(String)
 
-    categories = relationship(
-        "Category",
-        secondary=subtitute_category, backref="subtitutes")
-
     def __repr__(self):
-        return "<Product(name='%s', description='%s', store='%s',\
-                                                     url='%s')>"\
-                % (self.name, self.description, self.store, self.url)
+        return "<Product(name='%s', nutriscore='%s',description='%s',\
+                                            store='%s',url='%s')>"\
+                % (self.name, self.nutriscore, self.description, self.store, self.url)
 
 
 class Brand(Base):

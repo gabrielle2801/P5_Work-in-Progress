@@ -1,0 +1,152 @@
+Last login: Mon Jan  4 08:40:48 on ttys000
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+(base) iMac-de-XavGab:~ xavgab$ cd /Users/xavgab/Documents/Python/05_Projet\ 5/P\[5\]_Session/off 
+(base) iMac-de-XavGab:off xavgab$ python3 main.py
+--- Construct all tables for the database  ---
+
+            1 - Quel aliment souhaitez-vous remplacer ?
+            2 - Retrouver mes aliments substitués
+            
+Que choissisez vous ?1
+1  -  Aliments et boissons à base de végétaux
+2  -  Aliments d'origine végétale
+3  -  Snacks
+4  -  Boissons
+5  -  Viandes
+6  -  Produits laitiers
+7  -  Plats préparés
+8  -  Aliments à base de fruits et de légumes
+9  -  Céréales et pommes de terre
+Choississez la catégorie
+3
+1  -  Prince goût Chocolat au blé complet
+2  -  Nutella biscuits t22 sachet de 22 biscuits
+3  -  Biscuit Sésame
+4  -  Fourrés Chocolat noir BIO
+5  -  Pains au lait
+6  -  Biscuit lait chocolat
+7  -  Brioche tranchée nature
+8  -  NESQUIK Poudre Cacaotée boîte
+9  -  Belvita chocolat et céréales complètes
+10  -  Granola L'Original chocolat au lait
+11  -  chocolat 85 %
+12  -  Biscuits Pavot Citron
+13  -  Goûter pépites de chocolat
+14  -  Chocolat noir Nestlé Dessert
+15  -  Biscuits Figue et son
+16  -  belvita original petit dejeuner
+17  -  Galettes St Michel
+18  -  P'tit Nature Complet
+Quel produit souhaitez-vous remplacer ?
+17
+Name of product :  Galettes St Michel 
+ Nutriscore:  e 
+ Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ 
+
+1  - 	Subtitute :  Prince goût Chocolat au blé complet 
+ 	Nutriscore :  d 
+ 	description :  Céréale 50,7 % (farine de BLÉ 35 %, farine de BLÉ complète 15,7 %), sucre, huiles végétales (palme, colza), cacao maigre en poudre 4,5 %, sirop de glucose, amidon de BLÉ, poudre à lever (carbonate acide d'ammonium, carbonate acide de sodium, diphosphate disodique), émulsifiants (lécithine de SOJA, lécithine de tournesol), sel, LAIT écrémé en poudre, lactose et protéines de LAIT, arômes. 
+ 	url :  https://fr.openfoodfacts.org/produit/7622210449283/prince-gout-chocolat-au-ble-complet-lu 
+	Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ ----------------------------------------------------------------------
+2  - 	Subtitute :  Biscuit Sésame 
+ 	Nutriscore :  c 
+ 	description :  Farine de blé 55,1%, sucre de canne roux, huile de colza 14,3%, sésame toasté 11,6%, germe de blé 5,2%, levain de seigle dévitalisé en poudre, fibres d'avoine, calcium, sel de mer, arôme naturel, magnésium, émulsifiant: lécithines de colza, poudres à lever (tartrates de potassium, carbonates de sodium, carbonates d'ammonium), acidifiant acide malique, protéines de lait, amidon de blé, vitamines B1, B6, B9, PP et E (lactose, protéines de lait), 
+ 	url :  https://fr.openfoodfacts.org/produit/3175680011480/biscuit-sesame-gerble 
+	Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ ----------------------------------------------------------------------
+3  - 	Subtitute :  Fourrés Chocolat noir BIO 
+ 	Nutriscore :  d 
+ 	description :  Farine de blé* 39%, chocolat noir* 25% (pâte de cacao*, sucre de canne* non raffiné 9,5%, beurre de cacao*), sucre de canne* roux non raffiné 16%, farine complète de blé* 15%, huile de tournesol oléique*, arôme naturel de vanille, lait écrémé* en poudre, sel de mer non raffiné, poudres à lever: carbonates d'ammonium, carbonates de sodium; épaississant : gomme d'acacia*; antioxydant : extraits de romarin*. Peut contenir des traces d'oeufs, de fruits à coque et de graines de sésame. *Ingrédients biologiques. 
+ 	url :  https://fr.openfoodfacts.org/produit/3229820100234/fourres-chocolat-noir-bio-bjorg 
+	Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ ----------------------------------------------------------------------
+4  - 	Subtitute :  Pains au lait 
+ 	Nutriscore :  d 
+ 	description :  Farine de BLÉ 41%, Levain 20% (farine de BLÉ 11%, eau, sel), ŒUFS frais 11%, Sucre, BEURRE pâtissier, Huile de colza, Levure, LAIT écrémé en poudre (équivalent à 10% de LAIT écrémé reconstitué), Émulsifiant: mono et diglycérides d'acides gras, Sel, Protéines de BLÉ, GLUTEN de BLÉ, Extrait de carotte, Arômes, Antioxydant : acide ascorbique, Protéines de LAIT 
+ 	url :  https://fr.openfoodfacts.org/produit/3256540000698/pains-au-lait-pasquier 
+	Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ ----------------------------------------------------------------------
+5  - 	Subtitute :  Biscuit lait chocolat 
+ 	Nutriscore :  c 
+ 	description :  Farine de _blé_ 53,2%, sucre de canne roux, huile de colza, pépites de chocolat 8,3% (pâte de cacao, sucre, beurre de cacao, émulsifiant : lécithines de soja), germe de blé 5,5%, farine de _lupin_, lait fermenté écrémé en poudre 2,6%, poudres à lever (tartrates de potassium, carbonates de sodium, carbonates d'ammonium), fibres d'avoine, calcium, magnésium, arôme naturel, sel de mer, émulsifiant : lécithines de colza, amidon de blé, vitamines (E, B6, B9), 
+ 	url :  https://fr.openfoodfacts.org/produit/3175680011534/biscuit-lait-chocolat-gerble 
+	Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ ----------------------------------------------------------------------
+6  - 	Subtitute :  Brioche tranchée nature 
+ 	Nutriscore :  d 
+ 	description :  Farine de blé 53%, eau, sucre, oeufs frais 9.5%, sirop de glucose-fructose, beurre pâtissier, huile de colza, émulsifiant : mono - et diglycérides d'acides gras, levure, sel, arômes, extraits végétaux à pouvoir colorant (curcuma, paprika), rhum, antioxydant : acide ascorbique. peut contenir des traces de soja, fruits a coque, graines de sésame. 
+ 	url :  https://fr.openfoodfacts.org/produit/3228857000647/brioche-tranchee-nature-harrys 
+	Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ ----------------------------------------------------------------------
+7  - 	Subtitute :  NESQUIK Poudre Cacaotée boîte 
+ 	Nutriscore :  b 
+ 	description :  Sucre, cacao maigre en poudre (21,3%), émulsifiant : lécithine de SOJA ; sel, vitamines : C, B1, D ; minéraux : pyrophosphate de fer, sulfate de zinc ; cannelle, arôme naturel. 
+ 	url :  https://fr.openfoodfacts.org/produit/3033710065066/nesquik-poudre-cacaotee-boite-nestle 
+	Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ ----------------------------------------------------------------------
+8  - 	Subtitute :  Belvita chocolat et céréales complètes 
+ 	Nutriscore :  c 
+ 	description :  Céréales 56,6% [céréales complètes 38,5% (farine de _blé_ complète 19,4%, flocons d'_avoine_ 8,5%, farine complète d'_orge_ 6,2%, farine complète de _seigle_ 3,4%, farine complète d'épeautre (_blé_) 1%), farine de _blé_ 18,1%, sucre, pépites de chocolat 12,3% [sucre, pâte de cacao, huiles végétales (palme, karité en proportions variables), dextrose, beurre de cacao, émulsifiant (lécithines de _soja_), huile de colza, cacao maigre en poudre 3%, amidon de _blé_, poudre à lever (carbonates d'amonium, diphosphates carbonates de sodium), minéraux (carbonate de calcium, carbonate de magnésium, fer élémentaire), émulsifiants (E492, lécithines de soja, E472e), sel, _lait_ écrémé en poudre, arômes, 
+ 	url :  https://fr.openfoodfacts.org/produit/7622210713780/belvita-chocolat-et-cereales-completes-lu 
+	Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ ----------------------------------------------------------------------
+9  - 	Subtitute :  Biscuits Pavot Citron 
+ 	Nutriscore :  c 
+ 	description :  Farine de blé 60%, huile de colza, sucre de canne roux, graines de pavot bleu 5%, germe de blé 5%, sirop de glucose, fructose, citron 0,9%, farine de riz, magnésium, fibres d'avoine, poudres à lever (diphosphates, carbonates de sodium, carbonates d'ammonium), émulsifiant: lécithines de colza, farine d'avoine, amidon (blé), farine de seigle, sucre, arôme naturel de citron, farine de maïs, sel, calcium, acidifiant: acide malique, protéines de lait, lactosérum, extrait de malt d'orge, amidon de blé, vitamines B6, B9, D et E (lactose, protéine de lait). 
+ 	url :  https://fr.openfoodfacts.org/produit/3175681066632/biscuits-pavot-citron-gerble 
+	Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ ----------------------------------------------------------------------
+10  - 	Subtitute :  Goûter pépites de chocolat 
+ 	Nutriscore :  c 
+ 	description :  Farine de blé 58,5%, sucre de canne roux, pépites de chocolat 12,4% (pâte de cacao, sucre, beurre de cacao, émulsifiant: lécithines de sola), huile de colza, farine de lupin, dextrose d'origine végétale, riz, fibres d'avoine, arôme naturel, calcium, magnésium, sel de mer, avoine, protéines de lait, sirop de malt d'orge, amidon de blé, orge, vitamines B1, B5, B9, PP et E (lactose, protéines de lait), poudre à lever : carbonates d'ammonium. Fabriqué dans un atelier qui utilise des fruits à coque et des œufs. 
+ 	url :  https://fr.openfoodfacts.org/produit/3251490307002/gouter-pepites-de-chocolat-gerble 
+	Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ ----------------------------------------------------------------------
+11  - 	Subtitute :  Biscuits Figue et son 
+ 	Nutriscore :  a 
+ 	description :  Farine complète de blé 26,5%, farine de blé 26,1%, son de blé 19,9%, huile de colza, sucre de canne roux, pâte de figues 5,1%, arôme naturel de figue, arôme naturel, émulsifiant : lécithines de colza, poudres à lever (acide citrique, carbonates de potassium, carbonates de sodium). Fabriqué dans un atelier qui utilise des fruits à coque, du lupin, des œufs, du sésame et du soja. 
+ 	url :  https://fr.openfoodfacts.org/produit/3251490332080/biscuits-figue-et-son-gerble 
+	Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ ----------------------------------------------------------------------
+12  - 	Subtitute :  belvita original petit dejeuner 
+ 	Nutriscore :  d 
+ 	description :  Céréales 69,5 % [céréales complètes 42,4 % (flocons de seigle 17,5 %, flocons d'avoine 15,3 %, gruau d'avoine 6,7 %, farine complète d'épeautre (blé) 1 %, farine complète d'orge 1 %, farine complète de blé 0,9 %), farine de blé 27,1 % ], sucre, huile de colza, sucre de canne, poudre à lever (carbonate acide de sodium, carbonate acide d'ammonium, diphosphate disodique), minéraux (carbonate de calcium, carbonates de magnésium, fer élémentaire), sel, sirop de sucre inverti, sirop d'orge malté, émulsifiant (lécithine de soja), lait écrémé en poudre, 
+ 	url :  https://fr.openfoodfacts.org/produit/7622210713926/belvita-original-petit-dejeuner-lu 
+	Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ ----------------------------------------------------------------------
+13  - 	Subtitute :  P'tit Nature Complet 
+ 	Nutriscore :  b 
+ 	description :  Farine complète de blé* 76,7%, sucre de canne* non raffiné, huile de colza*, amidon de blé*, poudre à lever : carbonates d'ammonium; sel de mer, arôme naturel de vanille, antioxydant : extraits de romarin*. * Ingrédients biologiques. 
+ 	url :  https://fr.openfoodfacts.org/produit/3229820021027/p-tit-nature-complet-bjorg 
+	Stores :  Epicerie, Super U, Auchan, Magasins U,  
+ 
+ ----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "main.py", line 12, in <module>
+    main()
+  File "main.py", line 8, in main
+    Controller()
+  File "/Users/xavgab/Documents/Python/05_Projet 5/P[5]_Session/off/controller.py", line 19, in __init__
+    self.run()
+  File "/Users/xavgab/Documents/Python/05_Projet 5/P[5]_Session/off/controller.py", line 42, in run
+    self.store)
+TypeError: get_next_page() missing 1 required positional argument: 'url'
+(base) iMac-de-XavGab:off xavgab$ 
