@@ -1,10 +1,10 @@
-from controller import Controller
-# from interface import Category_menu
+from controller.controller import Controller
+from DB.import_db import Database
 
 
 def main():
 
-    # Category_menu()
+    Database()
     Controller()
 
 
