@@ -19,16 +19,9 @@ class Database:
     def import_data(self):
         manager = DBManager()
         for category in self.list_category:
-            # category_name = Category(name=category)
-
             products = self.openFoodFactsApi.get_products(category)
             # insert data to Product, Store, Brand
             for product in products:
-                print(product.get("product_name"))
-                print(product.get("url"))
-                print(product.get("categories").split(","))
-                categories = manager.get_or_create_category(
-                    product.get("categories"))
                 if not product.get("product_name") or \
                         manager.session.query(Product).filter(
                             Product.barcode == product.get("code")).first()\
@@ -47,14 +40,17 @@ class Database:
                     barcode=product.get("code"),
                     brand=brand_insert)
 
-                # print(product_data)
+                category_names = product.get("categories").split(",")
+                for category in category_names:
+                    categories = manager.get_or_create_category(category)
+                    product_data.categories.append(categories)
                 for store_name in product.get("stores").split(","):
                     store = manager.session.query(Store).filter(
                         Store.name == store_name).first()
                     if not store:
                         store = Store(name=store_name)
                     product_data.stores.append(store)
-                product_data.categories.append(categories)
+
                 # product_data.categories.append(categories)
                 manager.session.add(product_data)
         manager.session.commit()

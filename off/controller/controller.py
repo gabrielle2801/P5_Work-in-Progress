@@ -1,8 +1,10 @@
 from view.view import HomepageView, CategoryListView, ProductByCategoryView
-from view.view import ProductDetailView, ResearchListView, SubtituteListView, ProductByNameView
+from view.view import ProductDetailView, SubstituteListView, ProductByNameView
+from view.view import ProductByNameListView, CategoriesByNameListView
 from query.manager import DBManager
 from constants import HOMEPAGE, RESEARCH_BY_CATEGORY, PRODUCTS_FOR_CATEGORY, RESEARCH_BY_NAME
-from constants import PRODUCT_DETAIL, SAVE_SUBTITUT, SUBTITUTES_LIST, SUBTITUTES_RESEARCH
+from constants import PRODUCT_DETAIL, SAVE_SUBSTITUT, SUBSTITUTES_LIST
+from constants import PRODUCTBYNAME_DETAIL, FOUND_PRODUCT, CATEGORYBYNAMELIST
 
 
 class Controller:
@@ -22,11 +24,6 @@ class Controller:
                 view = HomepageView()
                 view.display()
                 self.page = view.get_next_page()
-            elif self.page == RESEARCH_BY_NAME:
-                products = manager.get_product_by_name(self.input)
-                view = ProductByNameView()
-                view.display(products=products)
-                self.page, self.input = view.get_next_page()
             elif self.page == RESEARCH_BY_CATEGORY:
                 categories = manager.get_categories()
                 view = CategoryListView()
@@ -40,25 +37,45 @@ class Controller:
                 self.page, self.choice_product = view.get_next_page()
             elif self.page == PRODUCT_DETAIL:
                 product = manager.get_products(product_id=self.choice_product)
-                subtituts = manager.get_subtitutes(
+                substituts = manager.get_substitutes(
                     product_id=self.choice_product, category_id=self.choice_category)
                 store = manager.get_stores_for_product(
                     product_id=self.choice_product)
                 view = ProductDetailView()
-                view.display(product, subtituts, store)
+                view.display(product, substituts, store)
                 self.page, self.choice = view.get_next_page()
-            elif self.page == SAVE_SUBTITUT:
-                product_id, subtitut_id = self.choice_product, self.choice
-                manager.create_subtitute(product_id, subtitut_id)
+            elif self.page == SAVE_SUBSTITUT:
+                product_id, substitut_id = self.choice_product, self.choice
+                manager.create_substitute(product_id, substitut_id)
                 self.page = HOMEPAGE
-                self.choice = product_id
-            elif self.page == SUBTITUTES_LIST:
-                products = manager.get_research_list()
-                view = ResearchListView()
+            elif self.page == RESEARCH_BY_NAME:
+                view = ProductByNameView()
+                view.display()
+                self.page, self.input = view.get_next_page()
+            elif self.page == FOUND_PRODUCT:
+                products = manager.get_product_name(self.input)
+                view = ProductByNameListView()
                 view.display(products=products)
+                self.page, self.choice_product = view.get_next_page(
+                    products=products)
+            elif self.page == CATEGORYBYNAMELIST:
+                categories = manager.get_categories_for_name_product(
+                    self.choice_product)
+                view = CategoriesByNameListView()
+                view.display(categories=categories)
+                self.page, self.choice_category = view.get_next_page()
+            elif self.page == PRODUCTBYNAME_DETAIL:
+                product = manager.get_products(product_id=self.choice_product)
+                substituts = manager.get_substitutes(
+                    product_id=self.choice_product, category_id=self.choice_category)
+                store = manager.get_stores_for_product(
+                    product_id=self.choice_product)
+                view = ProductDetailView()
+                view.display(product, substituts, store)
                 self.page, self.choice = view.get_next_page()
-            elif self.page == SUBTITUTES_RESEARCH:
-                subtituts = manager.get_subtitute_saved()
-                view = SubtituteListView()
-                view.display(subtituts=subtituts)
-                self.page, self.choice_product = view.get_next_page()
+            elif self.page == SUBSTITUTES_LIST:
+                products = manager.get_research_list()
+                substituts = manager.get_substitute_saved()
+                view = SubstituteListView()
+                view.display(products=products, substituts=substituts)
+                self.page, self.choice = view.get_next_page()

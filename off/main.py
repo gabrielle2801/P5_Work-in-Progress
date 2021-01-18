@@ -4,7 +4,7 @@ from DB.import_db import Database
 
 def main():
 
-    Database()
+    #Database()
     Controller()
 
 

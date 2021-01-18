@@ -97,7 +97,7 @@ class Store(Base):
     return "<Store(name='%s'))>" % (self.name)
 
 
-print("--- Construct all tables for the database  ---")
+# print("--- Construct all tables for the database  ---")
 global Session
 engine = create_engine('postgresql://localhost/test')
 Session = sessionmaker(bind=engine)
