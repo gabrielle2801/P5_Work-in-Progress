@@ -1,6 +1,7 @@
-from constants import RESEARCH_BY_CATEGORY, SUBSTITUTES_LIST, HOMEPAGE, RESEARCH_BY_NAME
+from constants import RESEARCH_BY_CATEGORY, SUBSTITUTES_LIST, HOMEPAGE
 from constants import PRODUCTS_FOR_CATEGORY, PRODUCT_DETAIL, SAVE_SUBSTITUT
-from constants import PRODUCTBYNAME_DETAIL, FOUND_PRODUCT, CATEGORYBYNAMELIST
+from constants import FOUND_PRODUCT, RESEARCH_BY_NAME
+import os
 
 
 class HomepageView:
@@ -23,8 +24,10 @@ class HomepageView:
             return RESEARCH_BY_NAME
         elif option == "3":
             return SUBSTITUTES_LIST
-        else:
+        elif option == "4":
+            print("Merci et à bientôt")
             exit()
+            os.system('clear')
 
 
 class CategoryListView:
@@ -65,19 +68,25 @@ class ProductDetailView:
 
     def display(self, product, substituts, stores):
         print(product.id, " - name of the product : ", product.name)
-        print('\t'"Nutriscore : ", product.nutriscore)
+        print('\t'"Nutriscore : ", product.nutriscore.upper())
         print('\t'"Nova group : ", product.nova)
         print('\t' "URL :", product.url)
         print('\t'"Stores :", stores, '\n')
-        for id, substitute in enumerate(substituts):
-            print(substitute.id, " - name of the substituts : ", substitute.name)
-            print('\t'"Nutriscore :", substitute.nutriscore)
-            print('\t' "Nova group :", substitute.nova)
-            print('\t' "Description :", substitute.description)
-            print('\t' "URL :", substitute.url)
-            print('\t' "Stores : ", stores)
+        if substituts == []:
+            print("pas de substituts trouvés !")
+        else:
+            for id, substitute in enumerate(substituts):
+                print(substitute.id, " - name of the substituts : ", substitute.name)
+                print('\t'"Nutriscore :", substitute.nutriscore.upper())
+                print('\t' "Nova group :", substitute.nova)
+                print('\t' "Description :", substitute.description)
+                print('\t' "URL :", substitute.url)
+                print('\t' "Stores : ", stores)
 
-    def get_next_page(self):
+    def get_next_page(self, substituts):
+        if substituts == []:
+            # homepage = input("tapez h pour revenir à la page principale"'\n')
+            return HOMEPAGE, None
         while True:
             try:
                 substitut_choice = int(
@@ -105,7 +114,7 @@ class ProductByNameListView:
         else:
             print("Produits trouvés : ")
             for id, product in enumerate(products):
-                print(product.id, " - ", product.name)
+                print(product.id, " - ", product)
 
     def get_next_page(self, products):
         if products == []:
@@ -116,24 +125,8 @@ class ProductByNameListView:
                 break
             except ValueError:
                 print("Oops!  Saisie invalide.  Essayez de nouveau...")
-        return CATEGORYBYNAMELIST, product_choiced
+        return PRODUCT_DETAIL, product_choiced
 
-
-class CategoriesByNameListView:
-
-    def display(self, categories):
-        print("Choix par catégorie")
-        for id, category in enumerate(categories):
-            print(category.id, " - ", category.name)
-
-    def get_next_page(self):
-        while True:
-            try:
-                category_choiced = int(input("Veuillez choisir la categorie "))
-                break
-            except ValueError:
-                print("Oops!  Saisie invalide.  Essayez de nouveau...")
-        return PRODUCTBYNAME_DETAIL, category_choiced
 
 class ProductByNameDetailView:
 
@@ -143,15 +136,21 @@ class ProductByNameDetailView:
         print('\t'"Nova group : ", product.nova)
         print('\t' "URL :", product.url)
         print('\t'"Stores :", stores, '\n')
-        for id, substitute in enumerate(substituts):
-            print(substitute.id, " - name of the substituts : ", substitute.name)
-            print('\t'"Nutriscore :", substitute.nutriscore)
-            print('\t' "Nova group :", substitute.nova)
-            print('\t' "Description :", substitute.description)
-            print('\t' "URL :", substitute.url)
-            print('\t' "Store : ", stores)
+        if substituts == []:
+            print("pas de substituts trouvés !")
+        else:
+            for id, substitute in enumerate(substituts):
+                print(substitute.id, " - name of the substituts : ", substitute.name)
+                print('\t'"Nutriscore :", substitute.nutriscore.upper())
+                print('\t' "Nova group :", substitute.nova)
+                print('\t' "Description :", substitute.description)
+                print('\t' "URL :", substitute.url)
+                print('\t' "Store : ", stores)
 
-    def get_next_page(self):
+    def get_next_page(self, substituts):
+        if substituts == []:
+            # homepage = input("tapez h pour revenir à la page principale"'\n')
+            return HOMEPAGE, None
         while True:
             try:
                 substitut_choice = int(
@@ -164,11 +163,11 @@ class ProductByNameDetailView:
 
 class SubstituteListView:
 
-    def display(self, products, substituts):
+    def display(self, substituts):
         print("Vos produits recherchés et leurs substitues trouvés : ")
-        for id, (product, substitute) in enumerate(zip(products, substituts)):
-            print(product.id, " - ", product.name, " -> ",
-                  substitute.id, " - ", substitute.name)
+        for substitute in substituts:
+            print(substitute.product.id, substitute.product,
+                  " -> ", substitute.subtitute)
 
     def get_next_page(self):
         while True:
@@ -179,7 +178,9 @@ class SubstituteListView:
                     return HOMEPAGE, continued
                 elif continued == "NO":
                     print("Merci et à bientôt")
+                    os.system('clear')
                     exit()
+
             except ValueError:
                 print("Oops!  Saisie invalide.  Essayez de nouveau...")
         return SAVE_SUBSTITUT, continued

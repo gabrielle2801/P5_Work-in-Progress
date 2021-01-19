@@ -1,7 +1,6 @@
 from DB.models import Product, Category, Store, Subtitute, Brand
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from sqlalchemy import alias
 
 global Session
 engine = create_engine('postgresql://localhost/test')
@@ -40,19 +39,21 @@ class DBManager():
         return self.session.query(Product).select_from(Category)\
             .join(Product.categories).filter(Category.id == category_id).all()
 
-    def get_substitutes(self, product_id, category_id):
+    def get_substitutes(self, product_id):
         product = self.get_products(product_id)
-        return self.session.query(Product).select_from(Category)\
-            .join(Product.categories).filter(Category.id == category_id,
-                                             Product.nutriscore < product.nutriscore).all()
+        return self.session.query(Product).\
+            select_from(Category)\
+            .join(Product.categories).\
+            filter(Product.nutriscore < product.nutriscore).all()
 
     # get stores for product search by categorie
+
     def get_stores_for_product(self, product_id):
         stores_list = self.session.query(Store).select_from(Product)\
             .join(Product.stores).filter(Product.id == product_id).all()
         store_result = ""
         for store in stores_list:
-            store_result = store_result + ", " + store.name
+            store_result = store.name + ", " + store_result
         return store_result
 
     def get_products(self, product_id):
@@ -64,7 +65,7 @@ class DBManager():
         return self.session.query(Product).select_from(Product).filter(
             Product.name.like('%' + product_name + '%')).all()
 
-    def get_substitutes_by_name(self, product_id, category_id):
+    def get_substitutes_by_name(self, product_id):
         product = self.get_products(product_id)
         return self.session.query(Product).filter(
             Product.nutriscore < product.nutriscore).all()
@@ -91,9 +92,4 @@ class DBManager():
             Product.id == Subtitute.product_id).all()
 
     def get_substitute_saved(self):
-        a = alias(Subtitute)
-        b = alias(Subtitute)
-        return self.session.query(Product).join(a, Product.subtitutes).\
-            join(b, Product.subtitutes).\
-            filter(a.product_id == Product.product.id).\
-            filter(b.subtitute_id == Product.product.id)
+        return self.session.query(Subtitute).all()

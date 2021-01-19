@@ -1,6 +1,6 @@
 # from sqlalchemy import create_engine
 # from sqlalchemy.orm import sessionmaker
-from DB.models import Category, Product, Store
+from DB.models import Product, Store
 from query.manager import DBManager
 from off_client import OpenFoodFactsApi
 

@@ -45,9 +45,8 @@ class Product(Base):
       backref="products")
 
   def __repr__(self):
-    return "<Product(name='%s', nutriscore='%s', nova='%s',\
-                                                     url='%s', description='%s',barcode='%s')>"\
-        % (self.name, self.nutriscore, self.nova, self.url, self.description, self.barcode)
+    return " %s, nutriscore:%s, nova:%s"\
+        % (self.name, self.nutriscore.upper(), self.nova)
 
 
 class Subtitute(Base):
@@ -62,7 +61,7 @@ class Subtitute(Base):
       'Product', lazy=True, foreign_keys=[subtitute_id])
 
   def __repr__(self):
-    return '<Subtitute: {}>'.format(self.id)
+    return '<Substitute: {}>'.format(self.id)
 
 
 class Brand(Base):
