@@ -72,4 +72,3 @@ class Controller:
                 view = SubstituteListView()
                 view.display(substituts=substituts)
                 self.page, self.choice = view.get_next_page()
-            elif self.page == PRODUCT_DETAIL

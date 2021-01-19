@@ -149,7 +149,6 @@ class ProductByNameDetailView:
 
     def get_next_page(self, substituts):
         if substituts == []:
-            # homepage = input("tapez h pour revenir à la page principale"'\n')
             return HOMEPAGE, None
         while True:
             try:

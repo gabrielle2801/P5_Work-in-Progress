@@ -61,7 +61,7 @@ class DBManager():
             Product.id == product_id).first()
 
     # Research product by name
-    def get_product_name(self, product_name):
+    def search_product(self, product_name):
         return self.session.query(Product).select_from(Product).filter(
             Product.name.like('%' + product_name + '%')).all()
 
