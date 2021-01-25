@@ -13,7 +13,6 @@ class OpenFoodFactsApi:
         categories = [data.get('name') for data in data_category
                       if data.get("name")]
         category_name = categories[0:MAX]
-        # print(popular_category)
         return category_name
 
     def get_products(self, category_name):
@@ -23,7 +22,7 @@ class OpenFoodFactsApi:
             "tag_contains_0": "contains",
             "tag_0": category_name,
             "sort_by": "unique_scans_n",
-            "page_size": 20,
+            "page_size": 100,
             "json": 1}
 
         response_product = request_off("cgi/search.pl?", query)

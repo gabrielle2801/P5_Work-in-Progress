@@ -46,19 +46,19 @@ class Product(Base):
 
   def __repr__(self):
     return " %s, nutriscore:%s, nova:%s"\
-        % (self.name, self.nutriscore.upper(), self.nova)
+        % (self.name, self.nutriscore, self.nova)
 
 
-class Subtitute(Base):
-  __tablename__ = 'subtitute'
+class Substitute(Base):
+  __tablename__ = 'substitute'
 
   id = Column(Integer, primary_key=True)
   product_id = Column(Integer, ForeignKey('product.id'), unique=True)
-  subtitute_id = Column(Integer, ForeignKey('product.id'))
+  substitute_id = Column(Integer, ForeignKey('product.id'))
   product = relationship(
       'Product', lazy=True, foreign_keys=[product_id])
-  subtitute = relationship(
-      'Product', lazy=True, foreign_keys=[subtitute_id])
+  substitute = relationship(
+      'Product', lazy=True, foreign_keys=[substitute_id])
 
   def __repr__(self):
     return '<Substitute: {}>'.format(self.id)
@@ -98,6 +98,6 @@ class Store(Base):
 
 # print("--- Construct all tables for the database  ---")
 global Session
-engine = create_engine('postgresql://localhost/test')
+engine = create_engine('postgresql://localhost/db_off')
 Session = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)

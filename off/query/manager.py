@@ -1,9 +1,10 @@
-from DB.models import Product, Category, Store, Subtitute, Brand
+from DB.models import Product, Category, Store, Substitute, Brand
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
+from sqlalchemy import asc, or_
 
 global Session
-engine = create_engine('postgresql://localhost/test')
+engine = create_engine('postgresql://localhost/db_off')
 Session = sessionmaker(bind=engine)
 
 
@@ -26,28 +27,39 @@ class DBManager():
 
         brand = self.session.query(Brand).filter(
             Brand.name == brand_name).first()
-        if not brand:
+        if not brand or brand == "":
             brand = Brand(name=brand_name, label=label)
             self.session.add(brand)
         return brand
 
     # Research by category
     def get_categories(self):
-        return self.session.query(Category).select_from(Category).all()
+        return self.session.query(Category).select_from(Category).order_by(
+            asc(Category.name)).all()
 
     def get_products_for_category(self, category_id):
         return self.session.query(Product).select_from(Category)\
             .join(Product.categories).filter(Category.id == category_id).all()
 
-    def get_substitutes(self, product_id):
+    def get_substitutes(self, product_id, category_id):
         product = self.get_products(product_id)
-        return self.session.query(Product).\
-            select_from(Category)\
-            .join(Product.categories).\
-            filter(Product.nutriscore < product.nutriscore).all()
+        categories = self.session.query(Category).\
+            select_from(Product).join(Product.categories).\
+            filter(Product.id == product_id).all()
+        result = []
+        for category in categories:
+            print(category.name)
+            product_search = self.session.query(Product).\
+                select_from(Category).join(Product.categories).\
+                filter(Category.id == category.id,
+                       Product.nutriscore < product.nutriscore)\
+                .filter(or_(Product.nutriscore == "a",
+                            Product.nutriscore == "b")).all()
+            result.extend(product_search)
+
+        return result
 
     # get stores for product search by categorie
-
     def get_stores_for_product(self, product_id):
         stores_list = self.session.query(Store).select_from(Product)\
             .join(Product.stores).filter(Product.id == product_id).all()
@@ -75,21 +87,21 @@ class DBManager():
             .join(Product.categories).filter(Product.id == product_id).all()
 
     # List of subtitutes saved
-    def create_substitute(self, product_id, subtitut_id):
-        subtitute = self.session.query(Subtitute).filter(
-            Subtitute.product_id == product_id).first()
+    def create_substitute(self, product_id, substitut_id):
+        subtitute = self.session.query(Substitute).filter(
+            Substitute.product_id == product_id).first()
         if not subtitute:
-            subtitute = Subtitute(subtitute_id=subtitut_id,
-                                  product_id=product_id)
-            self.session.add(subtitute)
-            print("Le produit et son subtitut ont bien été enregistré")
+            substitute = Substitute(substitute_id=substitut_id,
+                                    product_id=product_id)
+            self.session.add(substitute)
+            print("Le produit et son substitut ont bien été enregistré")
         else:
             print("Le produit a déja été sauvegardé dans la liste")
         self.session.commit()
 
     def get_research_list(self):
-        return self.session.query(Product).select_from(Subtitute).filter(
-            Product.id == Subtitute.product_id).all()
+        return self.session.query(Product).select_from(Substitute).filter(
+            Product.id == Substitute.product_id).all()
 
     def get_substitute_saved(self):
-        return self.session.query(Subtitute).all()
+        return self.session.query(Substitute).all()

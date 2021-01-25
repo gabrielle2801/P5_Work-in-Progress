@@ -1,17 +1,12 @@
-# from sqlalchemy import create_engine
-# from sqlalchemy.orm import sessionmaker
 from DB.models import Product, Store
 from query.manager import DBManager
-from off_client import OpenFoodFactsApi
+from api.off_client import OpenFoodFactsApi
 
 global Session
-# engine = create_engine('postgresql://localhost/test')
-# Session = sessionmaker(bind=engine)
 
 
 class Database:
     def __init__(self):
-        # self.session = Session()
         self.openFoodFactsApi = OpenFoodFactsApi()
         self.list_category = self.openFoodFactsApi.get_categories()
         self.import_data()
@@ -28,8 +23,12 @@ class Database:
                         is not None:
 
                     continue
-                brand_insert = manager.get_or_create_brand(product.get(
-                    "brands"), product.get("labels").split(","))
+                if product.get("labels"):
+                    brand_insert = manager.get_or_create_brand(product.get(
+                        "brands"), product.get("labels").split(","))
+                else:
+                    brand_insert = manager.get_or_create_brand(product.get(
+                        "brands"), "")
 
                 product_data = Product(
                     name=product.get("product_name"),
@@ -44,14 +43,14 @@ class Database:
                 for category in category_names:
                     categories = manager.get_or_create_category(category)
                     product_data.categories.append(categories)
-                for store_name in product.get("stores").split(","):
-                    store = manager.session.query(Store).filter(
-                        Store.name == store_name).first()
+                if product.get("stores"):
+                    for store_name in product.get("stores").split(","):
+                        store = manager.session.query(Store).filter(
+                            Store.name == store_name).first()
                     if not store:
                         store = Store(name=store_name)
                     product_data.stores.append(store)
 
-                # product_data.categories.append(categories)
                 manager.session.add(product_data)
         manager.session.commit()
         manager.session.close()

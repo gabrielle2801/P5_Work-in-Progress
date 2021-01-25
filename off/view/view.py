@@ -1,6 +1,6 @@
 from constants import RESEARCH_BY_CATEGORY, SUBSTITUTES_LIST, HOMEPAGE
 from constants import PRODUCTS_FOR_CATEGORY, PRODUCT_DETAIL, SAVE_SUBSTITUT
-from constants import FOUND_PRODUCT, RESEARCH_BY_NAME
+from constants import FOUND_PRODUCT, RESEARCH_BY_NAME, PRODUCT_REMINDER
 import os
 
 
@@ -9,11 +9,13 @@ class HomepageView:
     def display(self):
         print("""
             Bienvenue sur le programme PurBeurre !
-            Ce programme vous permet de trouver des aliments de meilleurs qualités
+            Ce programme vous permet de trouver des aliments de meilleurs
+            qualités
             1 - Chercher les substituts du produit à remplacer par catégorie !
             2 - Chercher par nom de produit à remplacer !
             3 - Retrouver mes aliments substitués
             4 - Quitter
+            Pour revenir au menu principal -> tapez h à tout moment
             """)
 
     def get_next_page(self):
@@ -26,8 +28,8 @@ class HomepageView:
             return SUBSTITUTES_LIST
         elif option == "4":
             print("Merci et à bientôt")
-            exit()
             os.system('clear')
+            exit()
 
 
 class CategoryListView:
@@ -40,11 +42,14 @@ class CategoryListView:
     def get_next_page(self):
         while True:
             try:
-                category_id = int(input("Choississez la catégorie"'\n'))
+                category_id = input("Choississez la catégorie"'\n')
+                if category_id == "h":
+                    return HOMEPAGE, None
+                else:
+                    return PRODUCTS_FOR_CATEGORY, category_id
                 break
             except ValueError:
                 print("Oops!  Saisie invalide.  Essayez de nouveau...")
-        return PRODUCTS_FOR_CATEGORY, category_id
 
 
 class ProductByCategoryView:
@@ -56,12 +61,15 @@ class ProductByCategoryView:
     def get_next_page(self):
         while True:
             try:
-                product_id = int(
-                    input("Quel produit souhaitez-vous remplacer ?"'\n'))
+                product_id = input(
+                    "Quel produit souhaitez-vous remplacer ?"'\n')
+                if product_id == "h":
+                    return HOMEPAGE, None
+                else:
+                    return PRODUCT_DETAIL, product_id
                 break
             except ValueError:
                 print("Oops!  Saisie invalide.  Essayez de nouveau...")
-        return PRODUCT_DETAIL, product_id
 
 
 class ProductDetailView:
@@ -76,7 +84,8 @@ class ProductDetailView:
             print("pas de substituts trouvés !")
         else:
             for id, substitute in enumerate(substituts):
-                print(substitute.id, " - name of the substituts : ", substitute.name)
+                print(substitute.id, " - name of the substituts : ",
+                      substitute.name)
                 print('\t'"Nutriscore :", substitute.nutriscore.upper())
                 print('\t' "Nova group :", substitute.nova)
                 print('\t' "Description :", substitute.description)
@@ -85,16 +94,18 @@ class ProductDetailView:
 
     def get_next_page(self, substituts):
         if substituts == []:
-            # homepage = input("tapez h pour revenir à la page principale"'\n')
             return HOMEPAGE, None
         while True:
             try:
-                substitut_choice = int(
-                    input("Quel substitut voulez vous sauvegarder ?"'\n'))
+                substitut_choice = \
+                    input("Quel substitut voulez vous sauvegarder ?"'\n')
+                if substitut_choice == "h":
+                    return HOMEPAGE, None
+                else:
+                    return SAVE_SUBSTITUT, substitut_choice
                 break
             except ValueError:
                 print("Oops!  Saisie invalide.  Essayez de nouveau...")
-        return SAVE_SUBSTITUT, substitut_choice
 
 
 class ProductByNameView:
@@ -104,7 +115,10 @@ class ProductByNameView:
 
     def get_next_page(self):
         product_name = input("Veuillez tapez le nom du produit : ")
-        return FOUND_PRODUCT, product_name
+        if product_name == "h":
+            return HOMEPAGE, None
+        else:
+            return FOUND_PRODUCT, product_name
 
 
 class ProductByNameListView:
@@ -121,18 +135,21 @@ class ProductByNameListView:
             return RESEARCH_BY_NAME, None
         while True:
             try:
-                product_choiced = int(input("Veuillez choisir le produit : "))
+                product_choiced = input("Veuillez choisir le produit : ")
+                if product_choiced == "h":
+                    return HOMEPAGE, None
+                else:
+                    return PRODUCT_DETAIL, product_choiced
                 break
             except ValueError:
                 print("Oops!  Saisie invalide.  Essayez de nouveau...")
-        return PRODUCT_DETAIL, product_choiced
 
 
 class ProductByNameDetailView:
 
     def display(self, product, substituts, stores):
         print(product.id, " - name of the product : ", product.name)
-        print('\t'"Nutriscore : ", product.nutriscore)
+        print('\t'"Nutriscore : ", product.nutriscore.upper())
         print('\t'"Nova group : ", product.nova)
         print('\t' "URL :", product.url)
         print('\t'"Stores :", stores, '\n')
@@ -140,7 +157,8 @@ class ProductByNameDetailView:
             print("pas de substituts trouvés !")
         else:
             for id, substitute in enumerate(substituts):
-                print(substitute.id, " - name of the substituts : ", substitute.name)
+                print(substitute.id, " - name of the substituts : ",
+                      substitute.name)
                 print('\t'"Nutriscore :", substitute.nutriscore.upper())
                 print('\t' "Nova group :", substitute.nova)
                 print('\t' "Description :", substitute.description)
@@ -152,12 +170,16 @@ class ProductByNameDetailView:
             return HOMEPAGE, None
         while True:
             try:
-                substitut_choice = int(
-                    input("Quel substitut voulez vous sauvegarder ?"))
+                substitut_choice = \
+                    input("Quel substitut voulez vous sauvegarder ?")
+                if substitut_choice == "h":
+                    return HOMEPAGE, None
+                else:
+                    os.system('clear')
+                    return SAVE_SUBSTITUT, substitut_choice
                 break
             except ValueError:
                 print("Oops!  Saisie invalide.  Essayez de nouveau...")
-        return SAVE_SUBSTITUT, substitut_choice
 
 
 class SubstituteListView:
@@ -166,7 +188,36 @@ class SubstituteListView:
         print("Vos produits recherchés et leurs substitues trouvés : ")
         for substitute in substituts:
             print(substitute.product.id, substitute.product,
-                  " -> ", substitute.subtitute)
+                  " -> ", substitute.substitute)
+
+    def get_next_page(self, products):
+        while True:
+            try:
+                reminder_choice =\
+                    input("Voulez-vous revoir un produit sauvegardé ? : YES/NO"
+                          '\n')
+                if reminder_choice == "h":
+                    return HOMEPAGE, None
+                elif reminder_choice == "YES":
+                    product_reminder = input(
+                        "Veuillez choisir le produit à revoir : ")
+                    return PRODUCT_REMINDER, product_reminder
+                elif reminder_choice == "NO":
+                    return HOMEPAGE, None
+                break
+            except ValueError:
+                print("Oops!  Saisie invalide.  Essayez de nouveau...")
+
+
+class ProductReminderView:
+
+    def display(self, product, stores):
+        print("Vous desirez revoir le produit : ")
+        print("name of the product : ", product.name)
+        print('\t'"Nutriscore : ", product.nutriscore.upper())
+        print('\t'"Nova group : ", product.nova)
+        print('\t' "URL :", product.url)
+        print('\t'"Stores :", stores, '\n')
 
     def get_next_page(self):
         while True:
