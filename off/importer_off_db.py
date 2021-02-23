@@ -1,4 +1,4 @@
-from DB.import_db import Database
+from off.model.db.import_db import Database
 
 
 def main():

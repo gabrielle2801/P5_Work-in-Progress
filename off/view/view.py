@@ -1,10 +1,18 @@
-from constants import RESEARCH_BY_CATEGORY, SUBSTITUTES_LIST, HOMEPAGE
-from constants import PRODUCTS_FOR_CATEGORY, PRODUCT_DETAIL, SAVE_SUBSTITUT
-from constants import FOUND_PRODUCT, RESEARCH_BY_NAME, PRODUCT_REMINDER
+from off.constants import RESEARCH_BY_CATEGORY, SUBSTITUTES_LIST, HOMEPAGE,\
+    PRODUCTS_FOR_CATEGORY, PRODUCT_DETAIL, SAVE_SUBSTITUT,\
+    FOUND_PRODUCT, RESEARCH_BY_NAME, PRODUCT_REMINDER
 import os
 
+class GenericView:
 
-class HomepageView:
+    ''' This class handle errors exceptions
+    '''
+    input_error_msg = "Oops!  Saisie invalide.  Essayez de nouveau..."
+
+    def valid_numeric_and_home(self, value):
+        return value.isnumeric() or value.lower() == "h"
+
+class HomepageView(GenericView):
 
     def display(self):
         print("""
@@ -19,20 +27,27 @@ class HomepageView:
             """)
 
     def get_next_page(self):
-        option = input("Que choissisez vous ?")
-        if option == "1":
-            return RESEARCH_BY_CATEGORY
-        elif option == "2":
-            return RESEARCH_BY_NAME
-        elif option == "3":
-            return SUBSTITUTES_LIST
-        elif option == "4":
-            print("Merci et à bientôt")
-            os.system('clear')
-            exit()
+        while True:
+            value = input("Que choissisez vous ?")
+            if not self.valid_numeric_and_home(value):
+                print(self.input_error_msg)
+                continue
+
+            if value == "1":
+                return RESEARCH_BY_CATEGORY
+            elif value == "2":
+                return RESEARCH_BY_NAME
+            elif value == "3":
+                return SUBSTITUTES_LIST
+            elif value == "4":
+                print("Merci et à bientôt")
+                os.system('clear')
+                exit()
+            else:
+                print("Erreur de saisie")
 
 
-class CategoryListView:
+class CategoryListView(GenericView):
 
     def display(self, categories):
 
@@ -41,45 +56,50 @@ class CategoryListView:
 
     def get_next_page(self):
         while True:
+            value = input("Choississez la catégorie"'\n')
+            if not self.valid_numeric_and_home(value):
+                print(self.input_error_msg)
+                continue
+
+            if value.lower() == "h":
+                return HOMEPAGE, None
             try:
-                category_id = input("Choississez la catégorie"'\n')
-                if category_id == "h":
-                    return HOMEPAGE, None
-                else:
-                    return PRODUCTS_FOR_CATEGORY, category_id
-                break
-            except ValueError:
-                print("Oops!  Saisie invalide.  Essayez de nouveau...")
+                return PRODUCTS_FOR_CATEGORY, int(value)
+            except Exception:
+                pass
 
 
-class ProductByCategoryView:
+class ProductByCategoryView(GenericView):
 
     def display(self, products):
         for id, product in enumerate(products):
-            print(product.id, " - ", product.name)
+            print(product.id, " - ", product)
 
     def get_next_page(self):
         while True:
+            value = input(
+                "Quel produit souhaitez-vous remplacer ?"'\n')
+
+            if not self.valid_numeric_and_home(value):
+                print(self.input_error_msg)
+                continue
+
+            if value.lower() == "h":
+                return HOMEPAGE, None
             try:
-                product_id = input(
-                    "Quel produit souhaitez-vous remplacer ?"'\n')
-                if product_id == "h":
-                    return HOMEPAGE, None
-                else:
-                    return PRODUCT_DETAIL, product_id
-                break
-            except ValueError:
-                print("Oops!  Saisie invalide.  Essayez de nouveau...")
+                return PRODUCT_DETAIL, int(value)
+            except Exception:
+                pass
 
 
-class ProductDetailView:
+class ProductDetailView(GenericView):
 
-    def display(self, product, substituts, stores):
+    def display(self, product, substituts, stores_product, stores_substitutes):
         print(product.id, " - name of the product : ", product.name)
         print('\t'"Nutriscore : ", product.nutriscore.upper())
         print('\t'"Nova group : ", product.nova)
         print('\t' "URL :", product.url)
-        print('\t'"Stores :", stores, '\n')
+        print('\t'"Stores :", stores_product, '\n')
         if substituts == []:
             print("pas de substituts trouvés !")
         else:
@@ -90,38 +110,41 @@ class ProductDetailView:
                 print('\t' "Nova group :", substitute.nova)
                 print('\t' "Description :", substitute.description)
                 print('\t' "URL :", substitute.url)
-                print('\t' "Stores : ", stores)
+                print('\t' "Stores : ", stores_substitutes[id])
 
     def get_next_page(self, substituts):
-        if substituts == []:
-            return HOMEPAGE, None
         while True:
+            if substituts == []:
+                return HOMEPAGE, None
+            value = \
+                input("Quel substitut voulez vous sauvegarder ?"'\n')
+
+            if not self.valid_numeric_and_home(value):
+                print(self.input_error_msg)
+                continue
+            if value.lower() == "h":
+                return HOMEPAGE, None
             try:
-                substitut_choice = \
-                    input("Quel substitut voulez vous sauvegarder ?"'\n')
-                if substitut_choice == "h":
-                    return HOMEPAGE, None
-                else:
-                    return SAVE_SUBSTITUT, substitut_choice
-                break
-            except ValueError:
-                print("Oops!  Saisie invalide.  Essayez de nouveau...")
+                return SAVE_SUBSTITUT, int(value)
+            except Exception:
+                pass
 
 
-class ProductByNameView:
+class ProductByNameView(GenericView):
 
     def display(self):
         print("Recherche par nom de produit ")
 
     def get_next_page(self):
-        product_name = input("Veuillez tapez le nom du produit : ")
-        if product_name == "h":
-            return HOMEPAGE, None
-        else:
-            return FOUND_PRODUCT, product_name
+        while True:
+            value = input("Veuillez tapez le nom du produit : ")
+            if value.lower() == "h":
+                return HOMEPAGE, None, None
+            else:
+                return FOUND_PRODUCT, value, None
 
 
-class ProductByNameListView:
+class ProductByNameListView(GenericView):
     def display(self, products):
         if products == []:
             print("Produit non trouvé !")
@@ -131,58 +154,22 @@ class ProductByNameListView:
                 print(product.id, " - ", product)
 
     def get_next_page(self, products):
-        if products == []:
-            return RESEARCH_BY_NAME, None
         while True:
+            if products == []:
+                return RESEARCH_BY_NAME, None
+            value = input("Veuillez choisir le produit : ")
+            if not self.valid_numeric_and_home(value):
+                print(self.input_error_msg)
+                continue
+            if value.lower() == "h":
+                return HOMEPAGE, None
             try:
-                product_choiced = input("Veuillez choisir le produit : ")
-                if product_choiced == "h":
-                    return HOMEPAGE, None
-                else:
-                    return PRODUCT_DETAIL, product_choiced
-                break
-            except ValueError:
-                print("Oops!  Saisie invalide.  Essayez de nouveau...")
+                return PRODUCT_DETAIL, int(value)
+            except Exception:
+                pass
 
 
-class ProductByNameDetailView:
-
-    def display(self, product, substituts, stores):
-        print(product.id, " - name of the product : ", product.name)
-        print('\t'"Nutriscore : ", product.nutriscore.upper())
-        print('\t'"Nova group : ", product.nova)
-        print('\t' "URL :", product.url)
-        print('\t'"Stores :", stores, '\n')
-        if substituts == []:
-            print("pas de substituts trouvés !")
-        else:
-            for id, substitute in enumerate(substituts):
-                print(substitute.id, " - name of the substituts : ",
-                      substitute.name)
-                print('\t'"Nutriscore :", substitute.nutriscore.upper())
-                print('\t' "Nova group :", substitute.nova)
-                print('\t' "Description :", substitute.description)
-                print('\t' "URL :", substitute.url)
-                print('\t' "Store : ", stores)
-
-    def get_next_page(self, substituts):
-        if substituts == []:
-            return HOMEPAGE, None
-        while True:
-            try:
-                substitut_choice = \
-                    input("Quel substitut voulez vous sauvegarder ?")
-                if substitut_choice == "h":
-                    return HOMEPAGE, None
-                else:
-                    os.system('clear')
-                    return SAVE_SUBSTITUT, substitut_choice
-                break
-            except ValueError:
-                print("Oops!  Saisie invalide.  Essayez de nouveau...")
-
-
-class SubstituteListView:
+class SubstituteListView(GenericView):
 
     def display(self, substituts):
         print("Vos produits recherchés et leurs substitues trouvés : ")
@@ -192,24 +179,24 @@ class SubstituteListView:
 
     def get_next_page(self, products):
         while True:
+            value =\
+                input("Voulez-vous revoir un produit sauvegardé ? : yes/no"
+                      '\n')
+            if value.lower() == "h" or value.lower() == "no":
+                return HOMEPAGE, None
+            if value.lower() == "yes":
+                product_reminder = input(
+                    "Veuillez choisir le produit à revoir : ")
+            if not self.valid_numeric_and_home(product_reminder):
+                print(self.input_error_msg)
+                continue
             try:
-                reminder_choice =\
-                    input("Voulez-vous revoir un produit sauvegardé ? : YES/NO"
-                          '\n')
-                if reminder_choice == "h":
-                    return HOMEPAGE, None
-                elif reminder_choice == "YES":
-                    product_reminder = input(
-                        "Veuillez choisir le produit à revoir : ")
-                    return PRODUCT_REMINDER, product_reminder
-                elif reminder_choice == "NO":
-                    return HOMEPAGE, None
-                break
-            except ValueError:
-                print("Oops!  Saisie invalide.  Essayez de nouveau...")
+                return PRODUCT_REMINDER, int(product_reminder)
+            except Exception:
+                pass
 
 
-class ProductReminderView:
+class ProductReminderView(GenericView):
 
     def display(self, product, stores):
         print("Vous desirez revoir le produit : ")
@@ -220,17 +207,12 @@ class ProductReminderView:
         print('\t'"Stores :", stores, '\n')
 
     def get_next_page(self):
-        while True:
-            try:
-                continued = input(
-                    "Voulez vous chercher d'autres produits ? YES/NO"'\n')
-                if continued == "YES":
-                    return HOMEPAGE, continued
-                elif continued == "NO":
-                    print("Merci et à bientôt")
-                    os.system('clear')
-                    exit()
-
-            except ValueError:
-                print("Oops!  Saisie invalide.  Essayez de nouveau...")
-        return SAVE_SUBSTITUT, continued
+        value = input(
+            "Voulez vous chercher d'autres produits ? yes/no"'\n')
+        if value.lower() == "yes":
+            return HOMEPAGE, value
+        elif value.lower() == "no":
+            print("Merci et à bientôt")
+            os.system('clear')
+            exit()
+        return SAVE_SUBSTITUT, value
